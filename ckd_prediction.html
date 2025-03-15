@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronic Kidney Disease Prediction</title>
+    <link rel="stylesheet" href="https://pyscript.net/snapshots/2024.9.2/core.css"/>
+    <link rel="icon" type="image/x-icon" href="imgs/">
+   <!-- <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=League Spartan' rel='stylesheet'>
+    <link href="https://fonts.cdnfonts.com/css/open-sauce-one" rel="stylesheet">-->
+    <link href="https://fonts.cdnfonts.com/css/meringue" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="imgs/kidneyicon.png">
+    <script type="module" src="https://pyscript.net/snapshots/2024.9.2/core.js"></script>
+
+</head>
+<script>
+var store_appetite = 0
+function firststart() {
+    document.getElementById("bigheading").style.display = "none"
+    document.getElementById("description").style.display = "none"
+    document.getElementById("firstpagekidney").style.display = "none"
+    document.getElementById("datainput").style.display = "block"
+    document.body.style.backgroundColor = "#9b6f4a"
+    document.getElementById("binaryinput").style.display = "block"
+}
+
+function appetite(i) {
+    store_appetite = i
+    if (i==1) {
+        document.getElementById("goodrect").style.fill = "#8a6c6c"
+        document.getElementById("poorrect").style.fill = "#2e1d12"
+        document.getElementById("storeappetite").value = 0
+    }else if (i==-1){
+        document.getElementById("poorrect").style.fill = "#8a6c6c"
+        document.getElementById("goodrect").style.fill = "#2e1d12"
+        document.getElementById("storeappetite").value = 1
+    }
+}
+var adj
+var color = ["#00bf63","#ffbd59","#ff914d","#ff3131","#790000"]
+function checkinput() {
+    if (document.getElementById("ageinput").value == "" || document.getElementById("ageinput").value < 0 || document.getElementById("bpinput").value == "" || document.getElementById("bpinput").value < 0 || document.getElementById("storeappetite").value == "") {
+        document.getElementById("submitbtnsvg").style.display = "none"
+    }else{
+        document.getElementById("submitbtnsvg").style.display = "block"
+    }
+
+    adj = document.getElementById("storeadj").value
+    if (adj != "") {
+        document.getElementById("loadingrect").style.fill = color[adj]
+        document.getElementById("loadingimage").href.baseVal = "imgs/" + adj + ".png"
+    }
+}
+
+setInterval(checkinput, 1000);
+
+function results() {
+    document.getElementById("binaryinput").style.display = "none"
+    document.getElementById("datainput").style.display = "none"
+    document.getElementById("resultsdiv").style.display = "block"
+    document.body.style.backgroundImage = "url('imgs/kidney2.png')"
+    document.body.style.backgroundRepeat = "no-repeat"
+    document.body.style.backgroundAttachment = "fixed"
+    document.body.style.backgroundSize = "80%100%"
+}
+
+var show = 0
+
+function showdetail() {
+    if (show == 0) {
+        show = 1
+        document.getElementById("detailsdiv").style.display = "block"
+    } else {
+        show = 0
+        document.getElementById("detailsdiv").style.display = "none"
+    }
+}
+</script>
+<style>
+.py-error {
+    display:none;
+}
+
+h1 {
+    font-size: 30.6px;
+    color: white;
+}
+p {
+    font-size: 16px;
+    color:white;
+}
+
+rect:hover {
+    fill: #8a6c6c;
+}
+
+</style>
+<body style="background-color: #694736;">
+    <div id="bigheading" style="display:block;background-color: #2e1d12;width:92%;height:80px;color: #e5ded3;font-size:xx-large">
+        <b style="position: absolute;left:30px;top:25px">Renophatia</b>
+        <svg width="80" height="80" style="cursor: pointer;position:absolute;left:200px">
+            <image x="12.5" y="12.5" href="imgs/kidney3.png" width="45" height="45"/>
+        </svg>
+        <svg width="80" height="80" onclick="window.location.href = 'ckd_prediction_mobile.html'" style="cursor: pointer;position:absolute;left:270px">
+            <rect width="50" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="white" />
+            <image x="12.5" y="12.5" href="imgs/mobile.png" width="45" height="45" clip-path="inset(0% round 600px)"/>
+        </svg>
+</div>
+
+    <div id="description" style="display:block;padding:40px 40px">
+        <h1>KNOW YOUR<br>RISK TODAY</h1>
+        <p style="width: 500px;">At our CKD Risk Assessment Platform, we are dedicated to providing individuals with vital information about their kidney health. Utilizing advanced machine learning models, including Decision Trees, Extra Trees, and Adaptive Boosting, we offer a comprehensive risk assessment for Chronic Kidney Disease (CKD). Our user-friendly interface allows users to easily provide essential health information, enabling us to deliver accurate predictions and assessments of your risk. With our commitment to accuracy and confidentiality, we aim to help you take proactive steps towards better kidney health.</p>
+        <br><br><br><p style="text-align: center;width:450px">Click the button below to start<br>your assessment</p>
+        <div style="width: 470px;text-align: center;">
+        
+        <svg width="250" height="60" onclick="firststart()" style="cursor: pointer">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="12" href="imgs/sstartnow.png" width="170" height="50" clip-path="inset(0% round 50px)"/>
+        </svg>
+        </div>
+        <br><br><br><br><br>
+        <h1>ABOUT US</h1>
+        <p style="width:500px">Our team is dedicated to transforming kidney health management through innovative machine learning models. We share a common mission: to raise awareness about Chronic Kidney Disease and provide effective tools for its early detection, and believe that everyone deserves the opportunity to understand their health better. Thus, this Chronic kidney disease platform was born.</p>
+        <br><br>
+        <h1>BACKGROUND</h1>
+        <p style="width: 500px;">Chronic kidney disease, also known as chronic kidney failure, is a disease which causes a gradual loss of kidney function over a long period. Chronic kidney disease is estimated to affect more than 800 million people, 10% of the world's population, around the globe. It is also the 8th leading cause of mortality, causing about 1.3 million deaths worldwide annually, with another 1.4 million deaths from cardiovascular diseases that arose due to chronic kidney disease.</p>
+    </div>
+
+
+    <div style="position: absolute;top:120px;left:700px;display:block;width:600px;height:600px" id="firstpagekidney">
+        <svg height="500" width="700">
+          <image x="110" y="110" href="imgs/kidney.png" width="500" height="330" clip-path="inset(0% round 100px)"/>
+        </svg><br><br><br><br><br>
+        <svg height="500" width="700">
+            <image x="110" y="110" href="imgs/team.jpg" width="500" height="362" clip-path="inset(0% round 100px)"/>
+        </svg>  
+    </div>
+    
+    <div style="display: none;padding:40px 40px" id="datainput">
+        <b style="color:white;font-size: 16px;width: 800px">Welcome to the Data Input page!  Here, you can provide essential information that will enable our platform to assess your risk for Chronic Kidney Disease (CKD).</b>
+        <p>Please fill out the fields accurately, as your responses will help us create a more precise risk assessment. </p>
+        <br><br>
+        <h1>What is your age?</h1>
+        <input type=number id="ageinput" placeholder="AGE:" style="height:30px;width:180px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+        <br>
+        <h1>What is your blood pressure?</h1>
+        <input type=number id="bpinput" placeholder="Blood Pressure:" style="height:30px;width:180px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+        <br>
+        <h1>How would you rate your appetite?</h1>
+        <svg width="250" height="60" onclick="appetite(1)" style="cursor: pointer">
+            <rect id="goodrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/good.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg>
+        <svg width="250" height="60" onclick="appetite(-1)" style="cursor: pointer">
+            <rect id="poorrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/poor.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg><br><br><br><br>
+
+        <svg py-click="submitbtn" onclick="results()" height="60" width="250" style="display:none;cursor: pointer" id="submitbtnsvg">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/submit.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg>
+    </div>
+
+    <div style="position: absolute;top:190px;left:800px;display:block;width:600px;height:600px;display:none" id="binaryinput">
+        <svg height="60" width="250">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/hypertension.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg><input id="d3" type="checkbox" style="width:50px;height:50px"><br>
+        <svg height="60" width="250">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/diabetes.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg><input id="d4" type="checkbox" style="width:50px;height:50px"><br>
+        <svg height="60" width="250">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/cad.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg><input id="d5" type="checkbox" style="width:50px;height:50px"><br>
+        <svg height="60" width="250">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/pedal.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg><input id="d6" type="checkbox" style="width:50px;height:50px"><br>
+        <svg height="60" width="250">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+            <image x="24" y="15" href="imgs/anaemia.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg><input id="d7" type="checkbox" style="width:50px;height:50px">
+        
+    </div>
+
+    <input style="display:none" id="storeappetite">
+    <input style="display:none" id="storeadj">
+
+    <div style="display:none;padding:40px 40px" id="resultsdiv">
+        <h2 style="color: #9b6f4a;">Here are your results for what you have inputted.<br>Always remember to not over rely on this results and seek medical advice whether necessary.</h2>
+        <br>
+        <h2 style="color: #694736;font-size: 39.1px">Your risk of Chronic Kidney Disease is</h2>
+        <svg height="60" width="250">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#694736" id="loadingrect" />
+            <image x="24" y="15" href="imgs/loading.png" width="170" height="40" clip-path="inset(0% round 50px)" id="loadingimage"/>
+        </svg>
+        <br>
+        <svg height="60" width="250" onclick="showdetail()">
+            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#ffdba4" />
+            <image id="hidetailimg" x="24" y="15" href="imgs/toggledetails.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+        </svg>
+        <div id="detailsdiv" style="display:none">
+            <svg width="410" height="60">
+                <rect width="400" height="50" x="10" y="10" fill="#694736" style="stroke-width:4;stroke:#ffbd59" />
+                <text x="35" y="40" fill="white" style="font-size:16px" font-weight="bold">Ada Boost Classifier</text>
+            </svg><br>
+            <svg width="220" height="60">
+                <rect width="220" height="50" x="10" y="10" fill="#e0a06b"/>
+                <text id="ada_d" x="20" y="40" fill="white" style="font-size:16px" font-weight="bold">Diagnosis by model: </text>
+            </svg>
+            <svg width="185" height="60">
+                <rect width="185" height="50" x="10" y="10" fill="#9b6f4a"/>
+                <text id="ada_r" x="20" y="40" fill="white" style="font-size:16px" font-weight="bold">Risk: </text>
+            </svg><br><br>
+
+
+            <svg width="410" height="60">
+                <rect width="400" height="50" x="10" y="10" fill="#694736" style="stroke-width:4;stroke:#ffbd59" />
+                <text x="35" y="40" fill="white" style="font-size:16px" font-weight="bold">Extra Trees Classifier</text>
+            </svg><br>
+            <svg width="410" height="60">
+                <rect width="400" height="50" x="10" y="10" fill="#e0a06b"/>
+                <text id="ext_d" x="20" y="40" fill="white" style="font-size:16px" font-weight="bold">Diagnosis by model: </text>
+            </svg>
+            <br><br>
+
+
+            <svg width="410" height="60">
+                <rect width="400" height="50" x="10" y="10" fill="#694736" style="stroke-width:4;stroke:#ffbd59" />
+                <text x="35" y="40" fill="white" style="font-size:16px" font-weight="bold">Decision Tree Classifier</text>
+            </svg><br>
+            <svg width="410" height="60">
+                <rect width="400" height="50" x="10" y="10" fill="#e0a06b"/>
+                <text id="dec_d" x="20" y="40" fill="white" style="font-size:16px" font-weight="bold">Diagnosis by model: </text>
+            </svg>
+            
+        </div>
+    </div>
+    <py-script src="ckd_prediction_api.py" config="pyscript.json"></py-script>
+</body>
+</html>

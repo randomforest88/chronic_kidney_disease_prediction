@@ -1,0 +1,7 @@
+{
+    "packages": ["pandas","scikit-learn","numpy"],
+    "files": {
+    "https://raw.githubusercontent.com/randomforest88/chronic_kidney_disease_prediction/refs/heads/main/kidney_disease.csv": "./kidney_disease.csv",
+    "/ckd_prediction_api.py": "./subdir/ckd_prediction_api.py"
+  }
+}
