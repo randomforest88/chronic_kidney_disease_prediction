@@ -96,39 +96,31 @@ def submitbtn(event):
   #Ada Boost Model
   ada = AdaBoostClassifier(n_estimators=100, random_state = 42)
   ada.fit(X, y)
-
-  result = [ada.predict(input_data),ada.predict_proba(input_data)]
-  riskindex = result[1].reshape(-1)[1]
-
-  if (riskindex < 0.5):
-    output_div[4].value = "0"
-  elif (riskindex <=0.6):
-    output_div[4].value = "1"
-  elif (riskindex <=0.8):
-    output_div[4].value = "2"
-  elif (riskindex <=0.9):
-    output_div[4].value = "3"
-  else:
-    output_div[4].value = "4"
-
-  output_div[0].innerHTML = "Diagnosis by model: "+str(result[0] == [1])
-  output_div[1].innerHTML = "Risk: "+str(round(riskindex*100,2))+"%"
-
-
+  
   #Extra trees model
   extc = ExtraTreesClassifier()
   extc.fit(X, y)
-
-  result = [extc.predict(input_data),extc.predict_proba(input_data)]
-  riskindex = result[1].reshape(-1)[1]
-
-  output_div[2].innerHTML = "Diagnosis by model: "+str(result[0] == [1])
-
+  
   #Decision Tree Model
   dtc = DecisionTreeClassifier(random_state=42)
   dtc.fit(X, y)
 
-  result = [dtc.predict(input_data),dtc.predict_proba(input_data)]
+  result = [ada.predict(input_data),ada.predict_proba(input_data),extc.predict(input_data),extc.predict_proba(input_data),dtc.predict(input_data),dtc.predict_proba(input_data)]
+  result2 = [result[0][0],result[2][0],result[4][0]]
   riskindex = result[1].reshape(-1)[1]
+  totaldiag = int(result2[0])+int(result2[1])+int(result2[2])
 
-  output_div[3].innerHTML = "Diagnosis by model: "+str(result[0] == [1])
+
+  if (totaldiag == 0):
+    output_div[4].value = "0"
+  elif (totaldiag == 1 and result2[0] == 0):
+    output_div[4].value = "0"
+  elif (totaldiag == 1 and result2[0] == 1):
+    output_div[4].value = "2"
+  elif (totaldiag >= 2):
+    output_div[4].value = "3"
+
+  output_div[0].innerHTML = "Diagnosis by model: "+str(result[0][0] == 1)
+  output_div[1].innerHTML = "Risk: "+str(round(riskindex*100,2))+"%"
+  output_div[2].innerHTML = "Diagnosis by model: "+str(result[2][0] == 1)
+  output_div[3].innerHTML = "Diagnosis by model: "+str(result[4][0] == 1)
