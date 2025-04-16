@@ -38,6 +38,11 @@ function appetite(i) {
 }
 var adj
 var color = ["#00bf63","#ffbd59","#ff914d","#ff3131","#790000"]
+var radvice = ["Maintain a healthy lifestyle to keep kidneys safe. Stay hydrated, eat a balanced diet, and exercise regularly. Limit alcohol, avoid smoking, and monitor blood pressure. Get occasional kidney check-ups. Prevention is key to long-term kidney health.","","Get annual kidney function tests. Manage blood pressure and diabetes. Reduce salt, sugar, and processed foods. Drink enough water, exercise, and avoid smoking. Limit alcohol and maintain a balanced diet. Early prevention helps protect kidney health.","Monitor kidney function regularly. Control blood pressure and blood sugar. Limit salt, processed foods, and protein intake. Stay hydrated, avoid NSAIDs, and quit smoking. Exercise regularly and maintain a healthy weight. Consult a nephrologist for personalized advice."]
+var sadvice = ["Low Blood Pressure<br>Stay hydrated and increase salt intake slightly if advised. Eat small, frequent meals. Avoid sudden posture changes. Include caffeine moderately. Wear compression stockings if needed. Exercise to improve circulation. Consult a doctor if dizziness persists.<br><br>","High Blood Pressure<br>Reduce salt, processed foods, and caffeine. Eat more fruits, vegetables, and whole grains. Exercise regularly, maintain a healthy weight, and limit alcohol. Monitor BP, take prescribed medications, and manage stress. Regular check-ups are essential.<br><br>","Poor Appetite<br>Eat small, frequent meals. Choose nutrient-dense foods like nuts, yogurt, and eggs. Stay hydrated. Try mild exercise to stimulate hunger. Avoid sugary drinks before meals. Consider supplements if needed. Consult a doctor if appetite loss persists.<br><br>","Hypertension<br>Follow a low-sodium, heart-healthy diet (DASH diet). Exercise 30 minutes daily. Limit alcohol, quit smoking, and manage stress. Monitor BP regularly. Take medications as prescribed. Maintain a healthy weight to control hypertension.<br><br>","Diabetes Mellitus<br>Monitor blood sugar levels regularly. Follow a low-glycemic diet rich in fiber. Exercise daily, maintain a healthy weight, and take medications as prescribed. Avoid sugary drinks and processed foods. Regular check-ups prevent complications.<br><br>","Coronary Artery Disease<br>Eat heart-healthy fats (avocados, nuts, fish). Avoid trans fats and excess salt. Exercise regularly, quit smoking, and manage stress. Take prescribed medications. Monitor cholesterol and BP. Regular cardiac check-ups are crucial.<br><br>","Pedal Edema<br>Reduce salt intake, elevate legs when resting. Wear compression stockings. Exercise to improve circulation. Avoid prolonged sitting/standing. Monitor for underlying causes (heart, kidney, or liver issues). Consult a doctor if swelling persists.<br><br>","Anaemia<br>Increase iron-rich foods (leafy greens, red meat, beans). Pair with vitamin C for better absorption. Consider supplements if deficient. Avoid excessive tea/coffee with meals. Get checked for underlying causes. Rest adequately and monitor hemoglobin levels.<br><br>"]
+var sadvicedisplay = []
+var sadvicedisplay2 = ""
+var stopadvicing = 0
 function checkinput() {
     if (document.getElementById("ageinput").value == "" || document.getElementById("ageinput").value < 0 || document.getElementById("bpinput").value == "" || document.getElementById("bpinput").value < 0 || document.getElementById("storeappetite").value == "") {
         document.getElementById("submitbtnsvg").style.display = "none"
@@ -46,9 +51,31 @@ function checkinput() {
     }
 
     adj = document.getElementById("storeadj").value
-    if (adj != "") {
+    if (adj != "" && stopadvicing == 0) {
         document.getElementById("loadingrect").style.fill = color[adj]
         document.getElementById("loadingimage").href.baseVal = "imgs/" + adj + ".png"
+
+        document.getElementById("riskadvice").innerHTML = radvice[adj]
+        sadvicedisplay = []
+        if (document.getElementById("bpinput").value < 60) {
+            sadvicedisplay.push(0)
+        }else if (document.getElementById("bpinput").value > 140) {
+            sadvicedisplay.push(1)
+        }
+
+        if (document.getElementById("storeappetite").value == 1) {
+            sadvicedisplay.push(2)
+        }
+        for (let i = 0; i < 5; i++) {
+            if (document.getElementById("d"+(i+3)).checked == true) {
+                sadvicedisplay.push(3+i)
+            }
+        }
+        for (let j = 0; j < sadvicedisplay.length; j++) {
+            sadvicedisplay2 += sadvice[sadvicedisplay[j]]
+        }
+        document.getElementById("selectionadvice").innerHTML = sadvicedisplay2
+        stopadvicing = 1
     }
 }
 
@@ -165,23 +192,23 @@ rect:hover {
     <div style="position: absolute;top:190px;left:800px;display:block;width:600px;height:600px;display:none" id="binaryinput">
         <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/hypertension.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            <text x="50" y="43" font-size="22" fill="white">Hypertension</text>
         </svg><input id="d3" type="checkbox" style="width:50px;height:50px"><br>
         <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/diabetes.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            <text x="35" y="43" font-size="22" fill="white">Diabetes Mellitus</text>
         </svg><input id="d4" type="checkbox" style="width:50px;height:50px"><br>
         <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/cad.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            <text x="25" y="43" font-size="17" fill="white">Coronary Artery Disease</text>
         </svg><input id="d5" type="checkbox" style="width:50px;height:50px"><br>
         <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/pedal.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            <text x="55" y="43" font-size="22" fill="white">Pedal Edema</text>
         </svg><input id="d6" type="checkbox" style="width:50px;height:50px"><br>
         <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/anaemia.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            <text x="75" y="43" font-size="22" fill="white">Anaemia</text>
         </svg><input id="d7" type="checkbox" style="width:50px;height:50px"><br><br><br>
         <svg height="500" width="700">
             <image x="110" y="110" href="imgs/pedal2.JPG" width="500" height="330" clip-path="inset(0% round 100px)"/>
@@ -242,6 +269,10 @@ rect:hover {
             </svg>
             
         </div>
+        <h2 id="riskadvice" style="color: #9b6f4a;width: 1000px;">loading...</h2><br><br>
+        <h2 id="selectionadvice" style="color: #9b6f4a;width:1000px">loading...</h2>
+
+
     </div>
     <py-script src="ckd_prediction_api.py" config="pyscript.json"></py-script>
 </body>
