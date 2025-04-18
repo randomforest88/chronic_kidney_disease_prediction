@@ -15,23 +15,52 @@ from sklearn.tree import DecisionTreeClassifier
 userinput = []
 user2input = []
 def submitbtn(event):
+  
   for i in range(3,8):
-    if (document.querySelector("#d"+str(i)).checked == True):
-      userinput.append(1)
-    else:
-      userinput.append(0)
-    user2input.append(document.querySelector("#d"+str(i)).checked)
+      if (document.querySelector("#d"+str(i)).checked == True):
+        userinput.append(1)
+      else:
+        userinput.append(0)
+      user2input.append(document.querySelector("#d"+str(i)).checked)
 
-  data = {
+  if (document.querySelector("#mode").value == "0"):
+    data = {
+      "age": [document.querySelector("#ageinput").value],
+      "blood_pressure": [document.querySelector("#bpinput").value],
+      "hypertension": [userinput[0]],
+      "diabetes_mellitus": [userinput[1]],
+      "coronary_artery_disease": [userinput[2]],
+      "appetite": [document.querySelector("#storeappetite").value],
+      "pedal_edema": [userinput[3]],
+      "anaemia": [userinput[4]]
+    }
+  else:
+    data = {
     "age": [document.querySelector("#ageinput").value],
     "blood_pressure": [document.querySelector("#bpinput").value],
+    "specific_gravity":[document.querySelector("#sginput").value],
+    "albumin":[document.querySelector("#albumininput").value],
+    "sugar":[document.querySelector("#sugarinput").value],
+    "red_blood_cells":[document.querySelector("#storerbc").value],
+    "pus_cell":[document.querySelector("#storepuscell").value],
+    "pus_cell_clumps":[document.querySelector("#storepuscellclumps").value],
+    "bacteria":[document.querySelector("#storebacteria").value],
+    "blood_glucose_random":[document.querySelector("#bcrinput").value],
+    "blood_urea":[document.querySelector("#buinput").value],
+    "serum_creatinine":[document.querySelector("#scinput").value],
+    "sodium":[document.querySelector("#sodiuminput").value],
+    "potassium":[document.querySelector("#potassiuminput").value],
+    "haemoglobin":[document.querySelector("#haemoglobininput").value],
+    "packed_cell_volume":[document.querySelector("#pcvinput").value],
+    "white_blood_cell_count":[document.querySelector("#wbccinput").value],
+    "red_blood_cell_count":[document.querySelector("#rbccinput").value],
     "hypertension": [userinput[0]],
     "diabetes_mellitus": [userinput[1]],
     "coronary_artery_disease": [userinput[2]],
     "appetite": [document.querySelector("#storeappetite").value],
     "pedal_edema": [userinput[3]],
     "anaemia": [userinput[4]]
-  }
+    }
 
   input_data = pd.DataFrame(data)
 
@@ -85,8 +114,8 @@ def submitbtn(event):
 
   X = df[ind_col]
   y = df[dep_col]
-
-  X.drop(['specific_gravity','albumin','sugar','red_blood_cells','pus_cell','pus_cell_clumps','bacteria','blood_glucose_random','blood_urea','serum_creatinine','sodium','potassium','haemoglobin','packed_cell_volume','white_blood_cell_count','red_blood_cell_count'], axis = 'columns', inplace = True)
+  if (document.querySelector("#mode").value == "0"):
+    X.drop(['specific_gravity','albumin','sugar','red_blood_cells','pus_cell','pus_cell_clumps','bacteria','blood_glucose_random','blood_urea','serum_creatinine','sodium','potassium','haemoglobin','packed_cell_volume','white_blood_cell_count','red_blood_cell_count'], axis = 'columns', inplace = True)
 
   scaler=StandardScaler()
   X['age']=scaler.fit_transform(X[['age']])

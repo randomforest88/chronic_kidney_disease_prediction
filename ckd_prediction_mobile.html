@@ -23,16 +23,15 @@ function firststart() {
 
 }
 
-function appetite(i) {
-    store_appetite = i
+function appetite(i,id,id2,id3) {
     if (i==1) {
-        document.getElementById("goodrect").style.fill = "#8a6c6c"
-        document.getElementById("poorrect").style.fill = "#2e1d12"
-        document.getElementById("storeappetite").value = 0
+        document.getElementById(id).style.fill = "#8a6c6c"
+        document.getElementById(id2).style.fill = "#2e1d12"
+        document.getElementById(id3).value = 0
     }else if (i==-1){
-        document.getElementById("poorrect").style.fill = "#8a6c6c"
-        document.getElementById("goodrect").style.fill = "#2e1d12"
-        document.getElementById("storeappetite").value = 1
+        document.getElementById(id2).style.fill = "#8a6c6c"
+        document.getElementById(id).style.fill = "#2e1d12"
+        document.getElementById(id3).value = 1
     }
 }
 var adj
@@ -42,11 +41,37 @@ var sadvice = ["Low Blood Pressure<br>Stay hydrated and increase salt intake sli
 var sadvicedisplay = []
 var sadvicedisplay2 = ""
 var stopadvicing = 0
+var ids = ["ageinput","bpinput","sginput","albumininput","sugarinput","bcrinput","buinput","scinput","sodiuminput","potassiuminput","haemoglobininput","pcvinput","wbccinput","rbccinput"]
+var ids2 = ["storeappetite","storerbc","storepuscell","storepuscellclumps","storebacteria"]
+var validationcheckresult = 0
+
 function checkinput() {
-    if (document.getElementById("ageinput").value == "" || document.getElementById("ageinput").value < 0 || document.getElementById("bpinput").value == "" || document.getElementById("bpinput").value < 0 || document.getElementById("storeappetite").value == "") {
-        document.getElementById("submitbtnsvg").style.display = "none"
-    }else{
-        document.getElementById("submitbtnsvg").style.display = "block"
+    if (mode == 1) {
+        validationcheckresult = 0
+        for (let l = 0; l < ids.length; l++) {
+            if (document.getElementById(ids[l]).value == "" || document.getElementById(ids[l]).value < 0) {
+                console.log(document.getElementById(ids[l]).value)
+                validationcheckresult = 1
+                break
+            }
+        }
+        for (let l = 0; l < ids2.length; l++) {
+            if (document.getElementById(ids2[l]).value == "") {
+                validationcheckresult = 1
+                break
+            }
+        }
+        if (validationcheckresult == 1) {
+            document.getElementById("submitbtnsvg").style.display = "none"
+        }else{
+            document.getElementById("submitbtnsvg").style.display = "block"
+        }
+    } else {
+        if (document.getElementById("ageinput").value == "" || document.getElementById("ageinput").value < 0 || document.getElementById("bpinput").value == "" || document.getElementById("bpinput").value < 0 || document.getElementById("storeappetite").value == "") {
+            document.getElementById("submitbtnsvg").style.display = "none"
+        }else{
+            document.getElementById("submitbtnsvg").style.display = "block"
+        }
     }
 
     adj = document.getElementById("storeadj").value
@@ -84,7 +109,7 @@ function results() {
 
     document.getElementById("datainput").style.display = "none"
     document.getElementById("resultsdiv").style.display = "block"
-    document.body.style.backgroundImage = "url('imgs/kidney2.png')"
+    document.body.style.backgroundImage = "url('imgs/kidney4.png')"
     document.body.style.backgroundRepeat = "no-repeat"
     document.body.style.backgroundAttachment = "fixed"
     document.body.style.backgroundSize = "cover"
@@ -99,6 +124,19 @@ function showdetail() {
     } else {
         show = 0
         document.getElementById("detailsdiv").style.display = "none"
+    }
+}
+var mode = 0
+
+function selectmode() {
+    if (document.getElementById("choosemode").checked == true) {
+        document.getElementById("medicalmodeinputs").style.display = "block"
+        document.getElementById("mode").value = "1"
+        mode = 1
+    } else {
+        document.getElementById("medicalmodeinputs").style.display = "none"
+        document.getElementById("mode").value = "0"
+        mode = 0
     }
 }
 </script>
@@ -119,7 +157,65 @@ p {
 rect:hover {
     fill: #8a6c6c;
 }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #32612D;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #32612D;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>
 <body style="background-image: linear-gradient(to right, #000000, #74523b)">
     <div id="bigheading" style="display:block;background-image: linear-gradient(to right, #694736, #000000);width:92%;height:80px;color: #e5ded3;font-size:xx-large">
@@ -165,21 +261,27 @@ rect:hover {
         <b style="color:white;font-size: 16px;width: 800px">Welcome to the Data Input page!  Here, you can provide essential information that will enable our platform to assess your risk for Chronic Kidney Disease (CKD).</b>
         <p>Please fill out the fields accurately, as your responses will help us create a more precise risk assessment. </p>
         <br><br>
-        <h1>What is your age?</h1>
-        <input type=number id="ageinput" placeholder="AGE:" style="height:30px;width:180px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+        <h1>Mode for Medical Use:</h1>
+        <label class="switch" style="color: wheat;" onclick="selectmode()">
+            <input type="checkbox" id="choosemode">
+            <span class="slider round"></span>
+        </label>
         <br>
-        <h1>What is your blood pressure?</h1>
-        <input type=number id="bpinput" placeholder="Blood Pressure:" style="height:30px;width:180px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+        <h1>Please fill in the followings:</h1>
+        <input type=number id="ageinput" placeholder="AGE:" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+        <br>
+        <input type=number id="bpinput" placeholder="Blood Pressure:" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
         <br>
         <h1>How would you rate your appetite?</h1>
-        <svg width="250" height="60" onclick="appetite(1)" style="cursor: pointer">
+        <svg width="250" height="60" onclick="appetite(1,'goodrect','poorrect','storeappetite')" style="cursor: pointer">
             <rect id="goodrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/good.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            <text x="78" y="43" font-size="30" fill="white">Good</text>
         </svg>
-        <svg width="250" height="60" onclick="appetite(-1)" style="cursor: pointer">
+        <svg width="250" height="60" onclick="appetite(-1,'goodrect','poorrect','storeappetite')" style="cursor: pointer">
             <rect id="poorrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/poor.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
-        </svg><br><br><br><br><svg height="60" width="250">
+            <text x="82" y="43" font-size="30" fill="white">Poor</text>
+        </svg><br><br>
+        <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
             <text x="50" y="43" font-size="22" fill="white">Hypertension</text>
         </svg><input id="d3" type="checkbox" style="width:50px;height:50px"><br>
@@ -198,24 +300,89 @@ rect:hover {
         <svg height="60" width="250">
             <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
             <text x="75" y="43" font-size="22" fill="white">Anaemia</text>
-        </svg><input id="d7" type="checkbox" style="width:50px;height:50px">
-        <br><br><br>
-        <svg height="500" width="700">
-            <image x="110" y="110" href="imgs/pedal2.JPG" width="500" height="330" clip-path="inset(0% round 100px)"/>
-        </svg>
+        </svg><input id="d7" type="checkbox" style="width:50px;height:50px"><br><br><br>
+        <br>
+        <div id="medicalmodeinputs" style="display: none;">
+            <input type=number id="sginput" placeholder="Specific Gravity:" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="albumininput" placeholder="Albumin: (0-5)" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="sugarinput" placeholder="Sugar: (0-5)" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="bcrinput" placeholder="Blood Glucose (mg/dL):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="buinput" placeholder="Blood Urea (mg/dL):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="scinput" placeholder="Serum Creatinine (mg/dL):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="sodiuminput" placeholder="Sodium (mmol/L):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="potassiuminput" placeholder="Potassium (mmol/L):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="haemoglobininput" placeholder="Haemoglobin (g/dL):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="pcvinput" placeholder="Packed Cell Volume (%):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="wbccinput" placeholder="White Blood Cell Count (cells/μL):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+            <input type=number id="rbccinput" placeholder="Red Blood Cell Count (million cells/μL):" style="height:30px;width:300px;padding: 6px 10px;font-size:17.1px;margin-bottom: 20px;border-color:white;text-align:center">
+            <br>
+
+            <h1>Red Blood Cell Condition:</h1>
+            <svg width="250" height="60" onclick="appetite(1,'rbcabnormalrect','rbcnormalrect','storerbc')" style="cursor: pointer">
+                <rect id="rbcabnormalrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="50" y="43" font-size="30" fill="white">Abnormal</text>            </svg>
+            <svg width="250" height="60" onclick="appetite(-1,'rbcabnormalrect','rbcnormalrect','storerbc')" style="cursor: pointer">
+                <rect id="rbcnormalrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="68" y="43" font-size="30" fill="white">Normal</text>            </svg><br><br>
+
+            <h1>Pus Cell Condition:</h1>
+            <svg width="250" height="60" onclick="appetite(1,'puscellabnormalrect','puscellnormalrect','storepuscell')" style="cursor: pointer">
+                <rect id="puscellabnormalrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="50" y="43" font-size="30" fill="white">Abnormal</text>            </svg>
+            <svg width="250" height="60" onclick="appetite(-1,'puscellabnormalrect','puscellnormalrect','storepuscell')" style="cursor: pointer">
+                <rect id="puscellnormalrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="68" y="43" font-size="30" fill="white">Normal</text>            </svg><br><br>
+
+            <h1>Pus Cell Clumps:</h1>
+            <svg width="250" height="60" onclick="appetite(1,'puscellclumpsnotpresentrect','puscellclumpspresentrect','storepuscellclumps')" style="cursor: pointer">
+                <rect id="puscellclumpsnotpresentrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="40" y="43" font-size="30" fill="white">Not present</text>            </svg>
+            <svg width="250" height="60" onclick="appetite(-1,'puscellclumpsnotpresentrect','puscellclumpspresentrect','storepuscellclumps')" style="cursor: pointer">
+                <rect id="puscellclumpspresentrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="68" y="43" font-size="30" fill="white">Present</text>            
+            </svg><br><br>
+
+            <h1>Bacteria:</h1>
+            <svg width="250" height="60" onclick="appetite(1,'bacterianotpresentrect','bacteriapresentrect','storebacteria')" style="cursor: pointer">
+                <rect id="bacterianotpresentrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="40" y="43" font-size="30" fill="white">Not Present</text>            </svg>
+            <svg width="250" height="60" onclick="appetite(-1,'bacterianotpresentrect','bacteriapresentrect','storebacteria')" style="cursor: pointer">
+                <rect id="bacteriapresentrect" width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <text x="68" y="43" font-size="30" fill="white">Present</text>
+            </svg><br><br>
+        </div>
         <p>Pedal edema, or foot edema, is the medical term for swelling in the feet<br>and ankles from fluid retention in nearby body tissues<br>To test for pedal edema, press your finger on a swollen area<br>of your skin for five to 15 seconds. After releasing,<br>a dimple appears in your skin if there is fluid built up in your tissues,<br>indicating the presence of pedal edema.</p> 
-        <h3 style="color:lightblue"><i>Source: https://en.wikipedia.org/wiki/File:Combinpedal.jpg<br>Source: https://www.carehospitals.com/</i></h3>
-       <br>
-        <svg py-click="submitbtn" onclick="results()" height="60" width="250" style="display:none;cursor: pointer" id="submitbtnsvg">
-            <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
-            <image x="24" y="15" href="imgs/submit.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
-        </svg>
+        <h3 style="color:lightblue">
+            <svg height="500" width="700">
+                <image x="110" y="110" href="imgs/pedal2.JPG" width="500" height="330" clip-path="inset(0% round 100px)"/>
+            </svg><br>
+            <i>Source: https://en.wikipedia.org/wiki/File:Combinpedal.jpg<br>Source: https://www.carehospitals.com/</i></h3><br><br>
+            <svg py-click="submitbtn" onclick="results()" height="60" width="250" style="display:none;cursor: pointer" id="submitbtnsvg">
+                <rect width="200" height="50" x="10" y="10" clip-path="inset(0% round 50px)" fill="#2e1d12" />
+                <image x="24" y="15" href="imgs/submit.png" width="170" height="40" clip-path="inset(0% round 50px)"/>
+            </svg>
 
     </div>
 
 
     <input style="display:none" id="storeappetite">
+    <input style="display:none" id="storerbc">
+    <input style="display:none" id="storepuscell">
+    <input style="display:none" id="storepuscellclumps">
+    <input style="display:none" id="storebacteria">
     <input style="display:none" id="storeadj">
+    <input style="display:none" id="mode" value="0">
 
     <div style="display:none;padding:40px 40px" id="resultsdiv">
         <h2 style="color: #9b6f4a;">Here are your results for what you have inputted.<br>Always remember to not over rely on this results<br>and seek medical advice whether necessary.</h2>
@@ -268,6 +435,9 @@ rect:hover {
         </div>
         <h2 id="riskadvice" style="color: #9b6f4a;width: 500px;">loading...</h2><br><br>
         <h2 id="selectionadvice" style="color: #9b6f4a;width:500px">loading...</h2>
+        <br><br>
+        <h2 style="color: red;font-size: 39.1px;width: 500px">*The analysis is just a reference for the risk of Chronic Kidney Disease, please seek medical consultation for more detailed analysis</h2>
+
 
     </div>
     <py-script src="ckd_prediction_api.py" config="pyscript.json"></py-script>
